@@ -51,3 +51,9 @@ brew install python3
 if [ ! -f ~/.ssh/id_rsa ]; 
 	then ssh-keygen -t rsa ; 
 fi
+
+# Install Discordapp
+brew tap caskroom/cask
+brew cask install discord
+brew cask install slack
+brew cask install postman
