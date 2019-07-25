@@ -17,6 +17,9 @@ brew cask install sourcetree
 # Install wget
 brew install wget
 
+# Install maven
+brew install mvn
+
 # Install nodejs
 brew install nvm 
 mkdir ~/.nvm
