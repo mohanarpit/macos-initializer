@@ -18,7 +18,7 @@ brew cask install sourcetree
 brew install wget
 
 # Install maven
-brew install mvn
+brew install maven
 
 # Install nodejs
 brew install nvm 
