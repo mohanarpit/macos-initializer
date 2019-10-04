@@ -60,3 +60,13 @@ brew tap caskroom/cask
 brew cask install discord
 brew cask install slack
 brew cask install postman
+brew cask install mongodb-compass
+
+# Installing redis-cli. The assumption is that the actual redis service will be run via Docker
+brew tap ringohub/redis-cli
+brew update && brew doctor
+brew install redis-cli
+
+# Pull the required database services that are commonly used. Can comment this if not required.
+docker pull mongo
+docker pull redis
