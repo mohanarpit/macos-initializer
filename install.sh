@@ -1,18 +1,19 @@
-# Install Homebrew
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+# Install homebrew
+NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+(echo; echo 'eval "$(/opt/homebrew/bin/brew shellenv)"') >> /Users/$USER/.zprofile
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# Install oh-my-zsh
+# Install iterm2
+brew install iterm2 --cask
+
+# Install zsh
 brew install zsh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 
-# Create work directory
-mkdir -p ~/code
+mkdir ~/Work
 
-# Install chrome
-brew cask install google-chrome
-
-# Install sourcetree
-brew cask install sourcetree
+# Install SourceTree
+brew install sourcetree --cask
 
 # Install wget
 brew install wget
@@ -27,25 +28,26 @@ echo "export NVM_DIR=~/.nvm" >> ~/.zshrc
 cat << EOT >> ~/.zshrc
 # NVM Constants
 export NVM_DIR="$HOME/.nvm"
- [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
- [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+  [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
+  [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
 EOT
-nvm install --lts
-nvm use default
+nvm install 16.14.0 # Choose latest version supported by Appsmith here
+nvm use 16.14.0
 
+# Install yarn
 brew install yarn
-brew uninstall node --ignore-dependencies
-ln -s ~/.nvm/versions/node/ /usr/local/Cellar/
 
 # Install java
-brew tap caskroom/cask
-brew cask install homebrew/cask-versions/java11 # Install the LTS version
+brew install openjdk@17
+sudo ln -sfn /opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-17.jdk
+echo 'export PATH="/opt/homebrew/opt/openjdk@17/bin:$PATH"' >> ~/.zshrc
+# export CPPFLAGS="-I/opt/homebrew/opt/openjdk@17/include" >> ~/.zshrc
 
 # Install Docker
-brew cask install docker
+
 
 # Install VSCode
-brew cask install visual-studio-code
+brew install visual-studio-code --cask
 
 # Install python3
 brew install python3
@@ -55,12 +57,11 @@ if [ ! -f ~/.ssh/id_rsa ];
 	then ssh-keygen -t rsa ; 
 fi
 
-# Install Discordapp
-brew tap caskroom/cask
-brew cask install discord
-brew cask install slack
-brew cask install postman
-brew cask install mongodb-compass
+# Install Postman
+brew install postman --cask
+
+# Install Studio 3T
+brew install studio-3t --cask
 
 # Installing redis-cli. The assumption is that the actual redis service will be run via Docker
 brew tap ringohub/redis-cli
@@ -70,3 +71,18 @@ brew install redis-cli
 # Pull the required database services that are commonly used. Can comment this if not required.
 docker pull mongo
 docker pull redis
+
+# Appsmith repo pre-requisites
+brew install git-secrets
+git secrets --register-aws
+
+# Client code pre-requisites
+brew install mkcert
+brew install nss
+brew install gettext
+
+npm install -g yarn
+
+brew tap mongodb/brew
+brew update
+brew install mongodb-community@6.0
